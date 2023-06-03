@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link,useLocation } from "react-router-dom";
 import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "../../theme";
 import AddIcon from '@mui/icons-material/Add';
@@ -17,6 +17,7 @@ import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutl
 import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
+
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
@@ -41,6 +42,23 @@ const Sidebar = () => {
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
+  const location = useLocation();
+  const isLoginPage = location.pathname === "/login";
+  if (isLoginPage) {
+    return null; // Hide the sidebar on the admin login page
+  }
+  const name = localStorage.getItem("name");
+  
+  const adminImages = {
+    "afwanshaj@gmail.com": require("../images/afwan.png"),
+    "nakulmn@gmail.com": require("../images/nakul.jpeg"),
+    "akashchemj@gmail.com": require("../images/akash.jpeg"),
+    "nikhilvenu@gmail.com": require("../images/nikhil.jpeg"),
+    "clievestiyan@gmail.com": require("../images/clieve.jpeg"),
+  };
+  const email = localStorage.getItem("email");
+  const adminImagePath = adminImages[email];
+
 
   return (
     <Box
@@ -97,7 +115,8 @@ const Sidebar = () => {
                   alt="profile-user"
                   width="100px"
                   height="100px"
-                  src={`../../assets/user.png`}
+                  // src={`../../assets/user.png`}
+                  src={adminImagePath}
                   style={{ cursor: "pointer", borderRadius: "50%" }}
                 />
               </Box>
@@ -108,10 +127,10 @@ const Sidebar = () => {
                   fontWeight="bold"
                   sx={{ m: "10px 0 0 0" }}
                 >
-                  Afwan Sha J
+                  {name}
                 </Typography>
                 <Typography variant="h5" color={colors.greenAccent[500]}>
-                  Admin
+                  {email}
                 </Typography>
               </Box>
             </Box>

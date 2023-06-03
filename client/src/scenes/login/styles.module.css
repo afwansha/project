@@ -67,8 +67,8 @@
 	align-items: center;
 	justify-content: center;
 	background-color: #121c1a;
-	border-top-right-radius: 10px;
-	border-bottom-right-radius: 10px;
+	border-radius: 10px;
+	padding:20px;
 }
 
 .right h1 {

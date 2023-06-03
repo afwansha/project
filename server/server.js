@@ -132,7 +132,7 @@ app.post('/adminlogin',urlencodedParser,async (req, res) => {
       console.log("admin exists")
 
       // Return the token in the response
-      res.status(200).json({ token, adminName: admin.name });
+      res.status(200).json({ token, admin });
     } else {
       // Authentication failed
       console.log("admin does not exist")
