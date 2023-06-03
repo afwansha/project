@@ -1,5 +1,6 @@
 import { Box, IconButton, useTheme } from "@mui/material";
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { ColorModeContext, tokens } from "../../theme";
 import InputBase from "@mui/material/InputBase";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
@@ -13,6 +14,11 @@ const Topbar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate("/login");
+  };
 
   return (
     <Box display="flex" justifyContent="space-between" p={2}>
@@ -43,7 +49,7 @@ const Topbar = () => {
         <IconButton>
           <SettingsOutlinedIcon />
         </IconButton>
-        <IconButton>
+        <IconButton onClick={handleClick}>
           <PersonOutlinedIcon />
         </IconButton>
       </Box>

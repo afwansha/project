@@ -8,31 +8,29 @@ const Login = () => {
 const [data, setData] = useState({ email: "", password: "" });
 const [error, setError] = useState("");
 
-const handleChange = ({ currentTarget: input }) => {
-setData({ ...data, [input.name]: input.value });
+const handleChange = (e) => {
+setData({ ...data, [e.target.name]: e.target.value });
 };
 
 const handleSubmit = async (e) => {
 	e.preventDefault();
-	try {
-		const formData = new FormData();
-		formData.append("email", data.email);
-		formData.append("password", data.password);
-		const response = await axios.post(`${SERVER_URL}/adminlogin`, {
-			method: 'POST',
-			body: formData
+	try {	
+		console.log(data)
+		axios.post(`${SERVER_URL}/adminlogin`, data)
+			.then((data) => {
+			  const { token } = data.data.token;
+			  // Use the token
+			  localStorage.setItem('token', token);
+			  window.location = '/';
+			})
+			.catch((error) => {
+				alert("Enter valid credentials")
+			  console.error('Error:', error);
 		});
-		const data = await response.json();
-
-		const { token } = response.data;
-
-		// Save the token to local storage
-		localStorage.setItem("token", token);
-
-		// Redirect the user to the home page
-		window.location = "/";
 	} catch (error) {
+		alert(error)
 		if (error.response && error.response.status >= 400 && error.response.status <= 500) {
+			alert(error.response.data.message);
 			setError(error.response.data.message);
 		}
 	}
